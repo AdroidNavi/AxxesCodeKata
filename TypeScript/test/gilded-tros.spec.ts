@@ -23,6 +23,12 @@ describe("GildedTros", () => {
     ${"Backstage passes for Test Event"} | ${6}   | ${5}           | ${12}
     ${"Backstage passes for Test Event"} | ${5}   | ${4}           | ${13}
     ${"Backstage passes for Test Event"} | ${0}   | ${-1}          | ${0}
+    ${"Duplicate Code"}                  | ${10}  | ${9}           | ${8}
+    ${"Duplicate Code"}                  | ${0}   | ${-1}          | ${6}
+    ${"Long Methods"}                    | ${10}  | ${9}           | ${8}
+    ${"Long Methods"}                    | ${0}   | ${-1}          | ${6}
+    ${"Ugly Variable Names"}             | ${10}  | ${9}           | ${8}
+    ${"Ugly Variable Names"}             | ${0}   | ${-1}          | ${6}
   `(
     "sellIn $sellIn day(s) | $name",
     ({ name, sellIn, expectedSellIn, expectedQuality }) => {
@@ -38,21 +44,19 @@ describe("GildedTros", () => {
   );
 
   it.each`
-    name           | expectedSellIn | expectedQuality
-    ${"Test Item"} | ${9}           | ${0}
-  `(
-    "quality never drops below 0 | $name",
-    ({ name, expectedSellIn, expectedQuality }) => {
-      const items: Item[] = [new Item(name, 10, 0)];
-      const app: GildedTros = new GildedTros(items);
+    name
+    ${"Test Item"}
+    ${"Duplicate Code"}
+    ${"Long Methods"}
+    ${"Ugly Variable Names"}
+  `("quality never drops below 0 | $name", ({ name }) => {
+    const items: Item[] = [new Item(name, 10, 0)];
+    const app: GildedTros = new GildedTros(items);
 
-      app.updateQuality();
+    app.updateQuality();
 
-      expect(app.items).toEqual([
-        new Item(name, expectedSellIn, expectedQuality),
-      ]);
-    }
-  );
+    expect(app.items).toEqual([new Item(name, 9, 0)]);
+  });
 
   it.each`
     name                                 | expectedSellIn | expectedQuality
