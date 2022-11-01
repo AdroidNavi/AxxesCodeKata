@@ -35,7 +35,7 @@ describe("GildedTros", () => {
       const items: Item[] = [new Item(name, sellIn, 10)];
       const app: GildedTros = new GildedTros(items);
 
-      app.updateQuality();
+      app.updateItems();
 
       expect(app.items).toEqual([
         new Item(name, expectedSellIn, expectedQuality),
@@ -53,7 +53,7 @@ describe("GildedTros", () => {
     const items: Item[] = [new Item(name, 10, 0)];
     const app: GildedTros = new GildedTros(items);
 
-    app.updateQuality();
+    app.updateItems();
 
     expect(app.items).toEqual([new Item(name, 9, 0)]);
   });
@@ -70,7 +70,7 @@ describe("GildedTros", () => {
       const items: Item[] = [new Item(name, 10, 50)];
       const app: GildedTros = new GildedTros(items);
 
-      app.updateQuality();
+      app.updateItems();
 
       expect(app.items).toEqual([
         new Item(name, expectedSellIn, expectedQuality),

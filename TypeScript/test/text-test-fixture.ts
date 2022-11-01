@@ -31,5 +31,5 @@ for (let i = 0; i < days; i++) {
   console.log("name, sellIn, quality");
   items.map((item) => item.toString()).forEach((item) => console.log(item));
   console.log();
-  app.updateQuality();
+  app.updateItems();
 }
