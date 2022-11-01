@@ -32,8 +32,7 @@ describe("GildedTros", () => {
   `(
     "sellIn $sellIn day(s) | $name",
     ({ name, sellIn, expectedSellIn, expectedQuality }) => {
-      const items: Item[] = [new Item(name, sellIn, 10)];
-      const app: GildedTros = new GildedTros(items);
+      const app: GildedTros = new GildedTros([new Item(name, sellIn, 10)]);
 
       app.updateItems();
 
@@ -50,8 +49,7 @@ describe("GildedTros", () => {
     ${"Long Methods"}
     ${"Ugly Variable Names"}
   `("quality never drops below 0 | $name", ({ name }) => {
-    const items: Item[] = [new Item(name, 10, 0)];
-    const app: GildedTros = new GildedTros(items);
+    const app: GildedTros = new GildedTros([new Item(name, 10, 0)]);
 
     app.updateItems();
 
@@ -65,8 +63,7 @@ describe("GildedTros", () => {
     ${"Backstage passes for HAXX"}
     ${"Backstage passes for Test Event"}
   `("quality never goes over 50 | $name", ({ name }) => {
-    const items: Item[] = [new Item(name, 10, 50)];
-    const app: GildedTros = new GildedTros(items);
+    const app: GildedTros = new GildedTros([new Item(name, 10, 50)]);
 
     app.updateItems();
 
