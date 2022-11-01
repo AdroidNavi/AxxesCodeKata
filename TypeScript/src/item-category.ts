@@ -1,10 +1,5 @@
 import { Item } from "./item";
 
-type ItemCategory = {
-  predicate: (item: Item) => boolean;
-  updater: (item: Item) => Item;
-};
-
 const BdawgKeychain = "B-DAWG Keychain";
 const GoodWine = "Good Wine";
 const BackstagePasses = "Backstage passes";
@@ -13,6 +8,11 @@ const CodeSmellItemNames = [
   "Long Methods",
   "Ugly Variable Names",
 ];
+
+type ItemCategory = {
+  predicate: (item: Item) => boolean;
+  updater: (item: Item) => Item;
+};
 
 export const categories: ItemCategory[] = [
   {
