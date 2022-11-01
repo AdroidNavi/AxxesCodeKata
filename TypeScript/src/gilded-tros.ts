@@ -3,61 +3,54 @@ import { Item } from "./item";
 export class GildedTros {
   constructor(public items: Array<Item>) {}
 
+  updater = (item: Item, qualityChange: number): Item => {
+    const realQualityChange =
+      item.sellIn <= 0 ? qualityChange * 2 : qualityChange;
+    const newQuality = Math.max(
+      0,
+      Math.min(50, item.quality + realQualityChange)
+    );
+
+    return {
+      ...item,
+      sellIn: item.sellIn - 1,
+      quality: newQuality,
+    };
+  };
+
   public updateQuality(): void {
-    for (let i = 0; i < this.items.length; i++) {
+    this.items = this.items.map((item) => {
+      const { name, quality, sellIn } = item;
+      if (name === "B-DAWG Keychain") {
+        return { ...item, quality: 80 };
+      }
+
+      if (name === "Good Wine") {
+        return this.updater(item, 1);
+      }
+      if (name.startsWith("Backstage passes")) {
+        if (sellIn <= 0) {
+          return { ...item, sellIn: sellIn - 1, quality: 0 };
+        }
+
+        if (sellIn <= 5) {
+          return this.updater(item, 3);
+        }
+
+        if (sellIn <= 10) {
+          return this.updater(item, 2);
+        }
+
+        return this.updater(item, 1);
+      }
+
       if (
-        this.items[i].name != "Good Wine" &&
-        !this.items[i].name.startsWith("Backstage passes")
+        ["Duplicate Code", "Long Methods", "Ugly Variable Names"].includes(name)
       ) {
-        if (this.items[i].quality > 0) {
-          if (this.items[i].name != "B-DAWG Keychain") {
-            this.items[i].quality = this.items[i].quality - 1;
-          } else {
-            this.items[i].quality = 80;
-          }
-        }
-      } else {
-        if (this.items[i].quality < 50) {
-          this.items[i].quality = this.items[i].quality + 1;
-
-          if (this.items[i].name.startsWith("Backstage passes")) {
-            if (this.items[i].sellIn < 11) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-
-            if (this.items[i].sellIn < 6) {
-              if (this.items[i].quality < 50) {
-                this.items[i].quality = this.items[i].quality + 1;
-              }
-            }
-          }
-        }
+        return this.updater(item, -2);
       }
 
-      if (this.items[i].name != "B-DAWG Keychain") {
-        this.items[i].sellIn = this.items[i].sellIn - 1;
-      }
-
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != "Good Wine") {
-          if (!this.items[i].name.startsWith("Backstage passes")) {
-            if (this.items[i].quality > 0) {
-              if (this.items[i].name != "B-DAWG Keychain") {
-                this.items[i].quality = this.items[i].quality - 1;
-              }
-            }
-          } else {
-            this.items[i].quality =
-              this.items[i].quality - this.items[i].quality;
-          }
-        } else {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality = this.items[i].quality + 1;
-          }
-        }
-      }
-    }
+      return this.updater(item, -1);
+    });
   }
 }
