@@ -17,7 +17,7 @@ type ItemCategory = {
 export const categories: ItemCategory[] = [
   {
     predicate: (item) => item.name === BdawgKeychain,
-    updater: (item) => ({ ...item, quality: 80 }),
+    updater: (item) => new Item(item.name, item.sellIn, 80),
   },
   {
     predicate: (item) => item.name === GoodWine,
@@ -36,7 +36,7 @@ export const categories: ItemCategory[] = [
 const backstagePassesUpdater = (item: Item): Item => {
   const { sellIn } = item;
   if (sellIn <= 0) {
-    return { ...item, sellIn: sellIn - 1, quality: 0 };
+    return new Item(item.name, sellIn - 1, 0);
   }
 
   if (sellIn <= 5) {
@@ -56,9 +56,5 @@ export const itemUpdater = (item: Item, qualityDelta: number): Item => {
 
   const newQuality = Math.max(0, Math.min(50, qualityPlusDelta));
 
-  return {
-    name: item.name,
-    sellIn: item.sellIn - 1,
-    quality: newQuality,
-  };
+  return new Item(item.name, item.sellIn - 1, newQuality);
 };
