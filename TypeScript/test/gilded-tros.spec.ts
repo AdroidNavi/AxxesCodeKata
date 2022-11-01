@@ -59,22 +59,17 @@ describe("GildedTros", () => {
   });
 
   it.each`
-    name                                 | expectedSellIn | expectedQuality
-    ${"Good Wine"}                       | ${9}           | ${50}
-    ${"Backstage passes for Re:Factor"}  | ${9}           | ${50}
-    ${"Backstage passes for HAXX"}       | ${9}           | ${50}
-    ${"Backstage passes for Test Event"} | ${9}           | ${50}
-  `(
-    "quality never goes over 50 | $name",
-    ({ name, expectedSellIn, expectedQuality }) => {
-      const items: Item[] = [new Item(name, 10, 50)];
-      const app: GildedTros = new GildedTros(items);
+    name
+    ${"Good Wine"}
+    ${"Backstage passes for Re:Factor"}
+    ${"Backstage passes for HAXX"}
+    ${"Backstage passes for Test Event"}
+  `("quality never goes over 50 | $name", ({ name }) => {
+    const items: Item[] = [new Item(name, 10, 50)];
+    const app: GildedTros = new GildedTros(items);
 
-      app.updateItems();
+    app.updateItems();
 
-      expect(app.items).toEqual([
-        new Item(name, expectedSellIn, expectedQuality),
-      ]);
-    }
-  );
+    expect(app.items).toEqual([new Item(name, 9, 50)]);
+  });
 });
