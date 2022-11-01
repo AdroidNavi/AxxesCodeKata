@@ -32,11 +32,17 @@ describe("GildedTros", () => {
   `(
     "sellIn $sellIn day(s) | $name",
     ({ name, sellIn, expectedSellIn, expectedQuality }) => {
-      const app: GildedTros = new GildedTros([new Item(name, sellIn, 10)]);
+      const app: GildedTros = new GildedTros([
+        new Item(name, sellIn, 10),
+        new Item(name, sellIn, 10),
+        new Item(name, sellIn, 10),
+      ]);
 
       app.updateItems();
 
       expect(app.items).toEqual([
+        new Item(name, expectedSellIn, expectedQuality),
+        new Item(name, expectedSellIn, expectedQuality),
         new Item(name, expectedSellIn, expectedQuality),
       ]);
     }
